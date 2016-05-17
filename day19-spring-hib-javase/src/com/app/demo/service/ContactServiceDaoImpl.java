@@ -35,6 +35,18 @@ public class ContactServiceDaoImpl implements ContactService {
 		
 		return dao.registerContact(c);
 	}
+
+	@Override
+	public String updateContact(Contact c) throws Exception {
+		
+		return dao.updateContact(c);
+	}
+
+	@Override
+	public String deleteContact(Contact c) throws Exception {
+		
+		return dao.deleteContact(c);
+	}
 	
 
 }

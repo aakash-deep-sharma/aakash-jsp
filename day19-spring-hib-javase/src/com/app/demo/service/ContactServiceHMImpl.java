@@ -37,6 +37,18 @@ public class ContactServiceHMImpl implements ContactService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public String updateContact(Contact c) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String deleteContact(Contact c) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 
 }

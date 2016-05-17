@@ -35,6 +35,18 @@ public class ContactDaoImpl implements ContactDao {
 		System.out.println("dao reted "+c);
 		return c;
 	}
+
+	@Override
+	public String updateContact(Contact c) throws Exception {
+		sf.getCurrentSession().update(c);
+		return "contact updated";
+	}
+
+	@Override
+	public String deleteContact(Contact c) throws Exception {
+		sf.getCurrentSession().delete(c);
+		return "contact deleted";
+	}
 	
 
 }
