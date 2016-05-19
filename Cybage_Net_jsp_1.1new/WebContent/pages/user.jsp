@@ -1,9 +1,10 @@
+<%-- <%@page import="org.apache.tomcat.util.net.SecureNio2Channel.ApplicationBufferHandler"%> --%>
 <%@page import="com.dto.BookDto"%>
 <%@page import="java.util.List"%>
 <%@page import="com.dao.UserDao"%>
 <%@page import="com.dao.LoginDao"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1" errorPage="pages/error.jsp"%>
+    pageEncoding="ISO-8859-1" errorPage="../pages/error.jsp"%>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     <%@ taglib uri="/WEB-INF/tlds/logout" prefix="logout" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -16,6 +17,7 @@
 </head>
 
 <body>
+
 
 <jsp:useBean id="BookDto" class="com.dto.BookDto" scope="session"></jsp:useBean>
 <jsp:setProperty property="*" name="BookDto"/>
@@ -30,9 +32,9 @@
 <form action="#" method="post">
 	<input type="text" name="bookName">
 	<input type="submit" name="searchBook"  value ="SEARCH">&nbsp&nbsp&nbsp
-	<input type="submit" name="logout" value ="LOGOUT">
+	<input type="submit" name="logout" value ="LOGOUT" >
 </form>
-
+	
 <c:if test="${param.searchBook eq 'SEARCH'}">
 	<h2>Search Result</h2>
 	<form action="#">
@@ -78,17 +80,17 @@
 					</tr>
 				</table>
 				
-				<h2 class="sub_title">Reviews </h2>
+				<h2>Reviews </h2>
 			<c:forEach items="${BookDto.showReviews}" var="review">
 				<table>
 					<tr>
-						<td>*</td>
-						<td>${review}</td>
+						<td><li>${review}</li></td>
 					</tr>
 				</table>
 			</c:forEach>
+			
 				<form action="#">
-					<input type="text" name="review">
+					<input type="text" name="review" required="required">
 					<input type="submit" name="reviewb" value="ADD REVIEW" >
 				</form>
 </c:if>
@@ -98,40 +100,12 @@
 		<jsp:setProperty property="bookReview" name="BookDto" value="${param.review}"/>
 		<c:set var="status" value="${BookDto.addReview}" scope="session"></c:set>
 		<c:set var="book" value="${BookDto.book}"></c:set>
-		
-		<table>
-				<tr>
-					<td><label>BOOK NAME :</label> </td>
-					<td> ${book.bookName} </td>
-				</tr>
-				<tr>
-					<td><label>BOOK AUTHOR : </label></td>
-					<td> ${book.bookAuthor} </td>
-				</tr>
-				<tr>
-					<td><label>BOOK PRICE : </label></td>
-					<td> ${book.bookPrice} </td>
-				</tr>
-			</table>
-
-	<h2 class="sub_title">Reviews </h2>
-		<c:forEach items="${BookDto.showReviews}" var="review">
-			<table>
-				<tr>
-					<td>${review}</td>
-				</tr>
-			</table>
-			
-			</c:forEach>
-		<form action="#">
-			<input type="text" name="review">
-			<input type="submit" name="reviewb" value="ADD REVIEW" >
-		</form>
+		<c:redirect url="../pages/user.jsp"></c:redirect>
 </c:if>
 
 <c:if test="${param.logout eq 'LOGOUT'}">
 	<logout:logout/>
-	
+	<c:set var="onlineUser" value="${onlineUser - 1 }" scope="application"></c:set>
 </c:if>
 
 </body>

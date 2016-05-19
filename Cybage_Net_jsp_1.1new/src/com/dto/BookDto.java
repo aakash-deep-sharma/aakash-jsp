@@ -15,6 +15,7 @@ public class BookDto {
 	private String bookAuthor;
 	private double bookPrice;
 	private String bookReview;
+	
 	private UserDao userDao;
 	private AdminDao adminDao;
 	
@@ -92,6 +93,11 @@ public class BookDto {
 	
 	public String getAddBook() throws SQLException
 	{
+		int cnt=adminDao.countBook(bookName,bookAuthor);
+		if(cnt>=1)
+		{
+			return "cannot add book duplicate entry";
+		}
 		int maxId = adminDao.maxBookId();
 		return adminDao.addBook(maxId, bookName,bookAuthor, bookPrice);
 	}

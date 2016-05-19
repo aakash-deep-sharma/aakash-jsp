@@ -11,7 +11,7 @@ import java.util.Date;
 import com.utility.Utility;
 
 public class LoginDao{
-
+//REFERENCE FOR CONNECTION IS BEING SET
 	private Connection con;
 	private PreparedStatement pst;
 	private Utility utill;
@@ -19,9 +19,11 @@ public class LoginDao{
 	public LoginDao() throws Exception {
 		utill=new Utility("jdbc:mysql://localhost/training","com.mysql.jdbc.Driver","root","root");
 		con = utill.getConnection();
-		pst = con.prepareStatement("select * from accounts where user_name=? and user_pass=md5(?)");
+		pst = con.prepareStatement("select * from accounts where user_name=? and user_pass=?");
 	}
-	public String getCheckUserCredintials(String username,String password) throws SQLException
+	//METHOD TO VALIDATE USER
+	
+	public String checkUserCredintials(String username,String password) throws SQLException
 	{
 		System.out.println("methode");
 		pst.setString(1, username);
@@ -33,8 +35,8 @@ public class LoginDao{
 		}
 		return "failed";
 	}
-	
-	/*public void genrateLog(String userName)
+	//METHOD TO GENRATE LOG
+	public void genrateLog(String userName)
 	{
 		try(PrintWriter log = new PrintWriter(new FileOutputStream("D://userlog.txt",true));)
 		{
@@ -42,9 +44,10 @@ public class LoginDao{
 			log.println(new Date()+"    ");
 		}
 		catch (Exception e)
-		{e.printStackTrace();
+		{
+			e.printStackTrace();
 		}
-	}*/
+	}
 
 	public Connection getCon() {
 		return con;

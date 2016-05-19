@@ -12,49 +12,40 @@ import com.utility.Utility;
 
 public class AdminDao {
 
+	//REFRENCE FOR CONNECTION AND STATEMENTS
 	private Connection con;
-	private PreparedStatement pst,pst1,pst2,pst3,pst4,pst5;
+	private PreparedStatement pst,pst1,pst2,pst3,pst4;
 	
-	public AdminDao() {
+	//METHOD HAVING PRECOMPILED QUERY
+	public AdminDao(Connection con) throws Exception 
+	{
 		
-	}
-	
-	public String getPst() throws Exception 
-	{	
-		System.out.println("in pst");
+		this.con = con;
+		
 		pst = con.prepareStatement("select * from accounts where user_name=? and user_pass=? and user_type=?");
 		pst1 = con.prepareStatement("select max(book_id) from books");
 		pst2 = con.prepareStatement("insert into books values(?,?,?,?)");
 		pst3 = con.prepareStatement("select * from books");
 		pst4 = con.prepareStatement("delete from books where book_id=?");
-		pst5 = con.prepareStatement("select count(1) from books where book_name=? and book_author=?");
-		return "sucess";
 	}
-	
-	
 	
 
-	public Connection getCon() {
-		return con;
-	}
+//BOOK IS ADDED
 
-	public void setCon(Connection con) {
-		this.con = con;
-	}
-	public String addBook(int maxId,String bName,String bAuthor,double bPrice) throws SQLException
+	public String addBook(int maxId,String bName,String bAuthor,int bPrice) throws SQLException
 	{
 		pst2.setInt(1, maxId+1);
 		pst2.setString(2, bName);
 		pst2.setString(3, bAuthor);
-		pst2.setDouble(4, bPrice);
+		pst2.setInt(4, bPrice);
 		int res =pst2.executeUpdate();
 		
 		if(res == 1)
-			return "Book Added Successfully";
+			return "sucsess";
 		else
-			return "Book Not Added";
+			return "failed";
 	}
-	
+	//GENERATE MAX ID
 	public int maxBookId() throws SQLException
 	{
 		int maxId=1;
@@ -64,7 +55,9 @@ public class AdminDao {
 			maxId = rs.getInt(1);
 		return maxId;
 	}
-	public List<BookDto> getBooks() throws SQLException
+	//BOOK IS SHOWN 
+	
+	public List<BookDto> showBooks() throws SQLException
 	{
 		
 		List<BookDto> list = new LinkedList<BookDto>(); 
@@ -79,9 +72,10 @@ public class AdminDao {
 			
 		}
 		System.out.println("show book ends"+list);
+		
 		return list;
 	}
-	
+	//bOOK IS DELETED
 	public String deleteBook(String[] ids)throws SQLException
 	{
 		
@@ -93,20 +87,6 @@ public class AdminDao {
 		}
 		
 		return "sucsess";
-	}
-	
-	public int countBook(String bName,String bAuthor) throws SQLException
-	{
-		int cnt=1;
-		pst5.setString(1,bName);
-		pst5.setString(2,bAuthor);
-		ResultSet rs = pst5.executeQuery();
-		
-		System.out.println(pst5);
-		if(rs.next())
-			cnt = rs.getInt(1);
-		
-		return cnt;
 	}
 	
 	

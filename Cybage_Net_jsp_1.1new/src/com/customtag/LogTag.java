@@ -12,11 +12,18 @@ import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import com.dto.UserDto;
 
+
+/*
+ *creating logtag by implementing simpletagsupport 
+ */
 public class LogTag extends SimpleTagSupport{
 
 	@Override
 	public void doTag() throws JspException, IOException {
+		
+		//it will return jsp page context to custom tag
 		PageContext ctx= (PageContext)getJspContext();
+		
 		HttpSession hs = ctx.getSession();
 		
 		UserDto user =(UserDto) hs.getAttribute("UserDto");

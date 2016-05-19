@@ -9,6 +9,6 @@
 </head>
 <body>
 <h1 align="center" style="font: 150;background-color: red;">ERROR OCCURED</h1>
-<h2 align="center" style="font:normal;background-color: blue;">${exception.message}</h2>
+<h2 align="center" style="font:normal;background-color: blue;">${exception}</h2>
 </body>
 </html>

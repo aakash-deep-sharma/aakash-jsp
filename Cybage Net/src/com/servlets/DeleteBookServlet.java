@@ -10,7 +10,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.dao.AdminDao;
 
@@ -19,27 +18,33 @@ import com.dao.AdminDao;
 /**
  * Servlet implementation class DeleteBook
  */
-@WebServlet("/DeleteBookServlet")
+//MAPPING IS DONE FROM ADMIN>HTML
+@WebServlet("/DeleteBook")
 public class DeleteBookServlet extends HttpServlet {
 	
+	private AdminDao adao;   
+   
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		HttpSession hs = request.getSession();
-		AdminDao adminDao =  (AdminDao)hs.getAttribute("AdminDao");
+		response.setContentType("text/html");
+		adao =  (AdminDao)request.getSession().getAttribute("adminDao");
+		PrintWriter pw = response.getWriter();
 		
 		try {
-			String[] ids = request.getParameterValues("books");
+			//LIST OF ALL BOOKS PRESENT IS GET
 			
-			String result =adminDao.deleteBook(ids);
-			if(result.contains("s"))
-			{
-				hs.setAttribute("status","Books Deleted Succesfully");
-				response.sendRedirect("pages/admin.jsp");
-			}
+			String[] ids = request.getParameterValues("book");
 			
-			} catch (SQLException e) {
-			hs.setAttribute("status","Books Not Deleted");
-			response.sendRedirect("admin/admin.jsp");
+			//DELETE BOOK ON ID
+			adao.deleteBook(ids);
+			pw.print("Deleted Succesfully");
+			System.out.println("deleted");
+			
+			RequestDispatcher rd = request.getRequestDispatcher("admin.html");
+			rd.include(request, response);
+			
+		} catch (SQLException e) {
+			
 			e.printStackTrace();
 		}
 		
